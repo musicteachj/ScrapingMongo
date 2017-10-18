@@ -37,7 +37,13 @@ var mongoose = require('mongoose');
 //mongoose.connect('mongodb://s.buller@comcast.net:<password>@ds011389.mlab.com:11389/heroku_4l161lq4');
 
 //for local deployment
-mongoose.connect('mongodb://localhost/scraper');
+var link;
+if (process.env.NODE_ENV === "production") {
+    link = process.env.MONGODB_URI;
+} else {
+    link = "mongodb://localhost/scraper";
+}
+mongoose.connect(link);
 var db = mongoose.connection;
 
 db.on('error', function(err) {
